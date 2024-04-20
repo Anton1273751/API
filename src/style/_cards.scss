@@ -1,0 +1,13 @@
+.cards {
+  margin: 0 auto;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  height: 100%;
+}
+.grid-wrapp {
+  display: grid;
+  grid-template-columns: repeat(4, 250px);
+  justify-content: center;
+  gap: 20px;
+  height: 100%;
+}

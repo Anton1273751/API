@@ -1,0 +1,19 @@
+.header {
+  &__wrapp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__img {
+    width: 300px;
+    height: 100px;
+    object-fit: cover;
+    object-position: center;
+  }
+  &__input {
+    width: 250px;
+    height: 30px;
+    color: aliceblue;
+    border-bottom: 1px solid aliceblue;
+  }
+}

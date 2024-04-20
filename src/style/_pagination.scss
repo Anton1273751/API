@@ -1,0 +1,30 @@
+.pagination {
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
+.arrow {
+  display: flex;
+  width: 300px;
+  justify-content: center;
+  width: 100%;
+  gap: 20px;
+  &__count {
+    color: azure;
+  }
+  &__left {
+    width: 20px;
+    height: 20px;
+    border-top: 5px solid #ffffff;
+    border-right: 5px solid #ffffff;
+    transform: rotate(-135deg);
+    cursor: pointer;
+  }
+  &__right {
+    width: 20px;
+    height: 20px;
+    border-top: 5px solid #ffffff;
+    border-right: 5px solid #ffffff;
+    transform: rotate(45deg);
+    cursor: pointer;
+  }
+}
