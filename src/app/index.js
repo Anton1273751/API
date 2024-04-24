@@ -28,6 +28,43 @@ function rendersCards(character) {
   });
 }
 
+const applyNode = document.querySelector("#selet-apply");
+applyNode.addEventListener("click", async (e) => {
+  const speciesNode = document.querySelector("#charater-species").value;
+  const genderNode = document.querySelector("#charater-Gender").value;
+  console.log(genderNode);
+  const statusNode = document.querySelector("#charater-Status").value;
+  console.log(statusNode);
+  let apiUrl = `https://rickandmortyapi.com/api/character/?`;
+
+  if (speciesNode) {
+    apiUrl += `species = ${speciesNode}&`;
+  }
+  if (genderNode) {
+    apiUrl += `gender = ${genderNode}&`;
+  }
+
+  if (statusNode) {
+    apiUrl += `status = ${statusNode}&`;
+  }
+
+  try {
+    const data = await getData(apiUrl);
+    console.log(data);
+    const filter = data.results.filter((elem) => {
+      return (
+        elem.status === statusNode ||
+        elem.gender === genderNode ||
+        elem.species === speciesNode
+      );
+    });
+    console.log(filter);
+    rendersCards(filter);
+  } catch (error) {
+    console.error(`error`);
+  }
+});
+
 function searchCards(data) {
   const inputeNode = document.querySelector(".header__input");
   inputeNode.addEventListener("input", (e) => {
@@ -40,52 +77,34 @@ function searchCards(data) {
 }
 
 function modalWindow(id) {
-  modalWindowOpen();
   getData(`https://rickandmortyapi.com/api/character/${id}`).then((data) => {
-    const cardNode = document.querySelector(".card");
-
-    cardNode.innerHTML = "";
-    cardNode.innerHTML += `<div class="card__img-wrapp">
-            <img class="card__img" src="${data.image}" alt="#" />
-          </div>
-          
-          <div class="card__info">
-            <div class="card__description">
-              <p class="card__text">Status</p>
-              <p class="card__text">${data.status}</p>
-            </div>
-            <div class="card__description">
-              <p class="card__text">Gender:</p>
-              <p class="card__text">${data.gender}</p>
-            </div>
-            <div class="card__description">
-              <p class="card__text">Species:</p>
-              <p class="card__text">${data.species}</p>
-            </div>
-            <div class="card__description">
-              <p class="card__text">Location:</p>
-              <p class="card__text">${data.location.name}</p>
-            </div>
-          </div>
-          <div class="card__close"onclick="modalWindowClose()">✖</div>`;
-  });
-}
-
-function modalWindowOpen() {
-  const modalNode = document.querySelector(".modal");
-  const btnNode = document.querySelectorAll(".character__btn");
-  btnNode.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      modalNode.style.display = "flex";
-    });
+    console.log(data);
+    document.body.innerHTML += ` 
+          <div class="popup"> 
+              <div class="popup__body"> 
+                  <div class="popup__content"> 
+                      <img src="${data.image}"></img> 
+                      
+                      <table> 
+                          <tr><td>Status:</td> <td>${data.status}</td></tr> 
+                          <tr><td>Gender:</td> <td>${data.gender}</td></tr> 
+                          <tr><td>Species:</td> <td>${data.species}</td></tr> 
+                          <tr><td>Location:</td> <td>${data.location.name}</td></tr> 
+                      </table> 
+                      <button class="popup__close" onclick='modalWindowClose()'>✖</button> 
+                  </div> 
+              </div> 
+          </div> 
+          `;
   });
 }
 
 function modalWindowClose() {
-  const modalNode = document.querySelector(".modal");
-  const modalClose = document.querySelector(".card__close");
+  const modalCobtainer = document.querySelector(".popup");
+  const modalNode = document.querySelector(".popup__body");
+  const modalClose = document.querySelector(".popup__close");
   modalClose.addEventListener("click", (e) => {
-    modalNode.style.display = "none";
+    modalCobtainer.style.display = `none`;
   });
 }
 
@@ -133,5 +152,6 @@ getData("https://rickandmortyapi.com/api/character").then((data) => {
   // modalWindowClose();
   nextPage(data.info.pages);
   prevPage();
+
   // modalWindowOpen();
 });

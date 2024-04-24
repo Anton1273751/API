@@ -1,0 +1,27 @@
+.option-wrapp {
+  display: flex;
+
+  justify-content: space-around;
+  width: 100%;
+}
+
+#charater-species {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+#charater-Gender {
+  color: white;
+  background-color: black;
+  cursor: pointer;
+}
+
+#charater-Status {
+  color: white;
+  background-color: black;
+  cursor: pointer;
+}
+#selet-apply {
+  padding: 5px;
+  color: white;
+}

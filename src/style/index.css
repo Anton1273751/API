@@ -206,52 +206,58 @@ button {
   border-radius: 2px;
 }
 
-.modal {
-  display: none;
+.popup {
+  display: block;
   position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.card {
-  position: relative;
-  max-width: 700px;
-  background-color: rgba(0, 0, 0, 0.8);
-  margin: auto;
-  display: flex;
-  cursor: default;
-}
-.card__info {
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-  width: 400px;
-  height: 300px;
-  border: 0.5px solid white;
-}
-.card__description {
-  display: flex;
   width: 100%;
   height: 100%;
-  border: 0.5px solid white;
+  background-color: rgba(0, 0, 0, 0.9);
+  top: 0;
+  left: 0;
 }
-.card__text {
+
+.popup__body {
+  min-height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  color: azure;
-  border: 0.1px solid rgb(200, 200, 200);
+  padding: 30px 10px;
 }
-.card__close {
-  padding: 5px;
+
+.popup__content {
+  display: flex;
+  position: relative;
+}
+
+.popup__close {
   position: absolute;
-  left: 690px;
-  bottom: 305px;
+  top: -26px;
+  right: 0;
   color: rgb(255, 255, 255);
-  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+tr {
+  border: 1px solid #fff;
+}
+
+td {
+  border: 1px solid #fff;
+  color: white;
+}
+
+td:first-child {
+  padding: 10px 10px 10px 16px;
+  min-width: 200px;
+}
+
+td:last-child {
+  min-width: 100px;
+  padding: 16px;
+  text-align: center;
 }
 
 .pagination {
@@ -284,4 +290,33 @@ button {
   border-right: 5px solid #ffffff;
   transform: rotate(45deg);
   cursor: pointer;
+}
+
+.option-wrapp {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+#charater-species {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+#charater-Gender {
+  color: white;
+  background-color: black;
+  cursor: pointer;
+}
+
+#charater-Status {
+  color: white;
+  background-color: black;
+  cursor: pointer;
+}
+
+#selet-apply {
+  padding: 5px;
+  color: white;
 }/*# sourceMappingURL=index.css.map */
