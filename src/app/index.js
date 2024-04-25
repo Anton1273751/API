@@ -34,7 +34,6 @@ applyNode.addEventListener("click", async (e) => {
   const genderNode = document.querySelector("#charater-Gender").value;
   console.log(genderNode);
   const statusNode = document.querySelector("#charater-Status").value;
-  console.log(statusNode);
   let apiUrl = `https://rickandmortyapi.com/api/character/?`;
 
   if (speciesNode) {
@@ -50,16 +49,20 @@ applyNode.addEventListener("click", async (e) => {
 
   try {
     const data = await getData(apiUrl);
+
     console.log(data);
-    const filter = data.results.filter((elem) => {
-      return (
-        elem.status === statusNode ||
-        elem.gender === genderNode ||
-        elem.species === speciesNode
-      );
+    const filterStatus = data.results.filter((elem) => {
+      return elem.status.toLowerCase() === statusNode.toLowerCase();
     });
-    console.log(filter);
-    rendersCards(filter);
+    const filterSpecies = data.results.filter((elem) => {
+      return elem.species.toLowerCase() === speciesNode.toLowerCase();
+    });
+    const filterRender = data.results.filter((elem) => {
+      return elem.gender.toLowerCase() === genderNode.toLowerCase();
+    });
+    const totalArr = [...filterStatus, ...filterSpecies, ...filterRender];
+    // console.log(totalArr);
+    rendersCards(totalArr);
   } catch (error) {
     console.error(`error`);
   }
@@ -78,7 +81,6 @@ function searchCards(data) {
 
 function modalWindow(id) {
   getData(`https://rickandmortyapi.com/api/character/${id}`).then((data) => {
-    console.log(data);
     document.body.innerHTML += ` 
           <div class="popup"> 
               <div class="popup__body"> 
@@ -101,10 +103,9 @@ function modalWindow(id) {
 
 function modalWindowClose() {
   const modalCobtainer = document.querySelector(".popup");
-  const modalNode = document.querySelector(".popup__body");
   const modalClose = document.querySelector(".popup__close");
   modalClose.addEventListener("click", (e) => {
-    modalCobtainer.style.display = `none`;
+    modalCobtainer.remove();
   });
 }
 
@@ -147,11 +148,7 @@ function prevPage() {
 
 getData("https://rickandmortyapi.com/api/character").then((data) => {
   rendersCards(data.results);
-  // modalWindow();
   searchCards(data.results);
-  // modalWindowClose();
   nextPage(data.info.pages);
   prevPage();
-
-  // modalWindowOpen();
 });
