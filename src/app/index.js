@@ -10,6 +10,10 @@ async function getData(url) {
   return result.json();
 }
 
+let selectedSpecies = ``;
+let selectedGender = ``;
+let selectedStatus = ``;
+
 const gridNode = document.querySelector(".grid-wrapp");
 let totalPage = 1;
 
@@ -32,37 +36,17 @@ const applyNode = document.querySelector("#selet-apply");
 applyNode.addEventListener("click", async (e) => {
   const speciesNode = document.querySelector("#charater-species").value;
   const genderNode = document.querySelector("#charater-Gender").value;
-  console.log(genderNode);
   const statusNode = document.querySelector("#charater-Status").value;
+
+  selectedSpecies = speciesNode;
+  selectedGender = genderNode;
+  selectedStatus = statusNode;
+
   let apiUrl = `https://rickandmortyapi.com/api/character/?`;
-
-  if (speciesNode) {
-    apiUrl += `species = ${speciesNode}&`;
-  }
-  if (genderNode) {
-    apiUrl += `gender = ${genderNode}&`;
-  }
-
-  if (statusNode) {
-    apiUrl += `status = ${statusNode}&`;
-  }
 
   try {
     const data = await getData(apiUrl);
-
-    console.log(data);
-    const filterStatus = data.results.filter((elem) => {
-      return elem.status.toLowerCase() === statusNode.toLowerCase();
-    });
-    const filterSpecies = data.results.filter((elem) => {
-      return elem.species.toLowerCase() === speciesNode.toLowerCase();
-    });
-    const filterRender = data.results.filter((elem) => {
-      return elem.gender.toLowerCase() === genderNode.toLowerCase();
-    });
-    const totalArr = [...filterStatus, ...filterSpecies, ...filterRender];
-    // console.log(totalArr);
-    rendersCards(totalArr);
+    rendersCards(data.results);
   } catch (error) {
     console.error(`error`);
   }
@@ -78,26 +62,26 @@ function searchCards(data) {
     rendersCards(filter);
   });
 }
-
 function modalWindow(id) {
   getData(`https://rickandmortyapi.com/api/character/${id}`).then((data) => {
-    document.body.innerHTML += ` 
-          <div class="popup"> 
-              <div class="popup__body"> 
-                  <div class="popup__content"> 
-                      <img src="${data.image}"></img> 
-                      
-                      <table> 
-                          <tr><td>Status:</td> <td>${data.status}</td></tr> 
-                          <tr><td>Gender:</td> <td>${data.gender}</td></tr> 
-                          <tr><td>Species:</td> <td>${data.species}</td></tr> 
-                          <tr><td>Location:</td> <td>${data.location.name}</td></tr> 
-                      </table> 
-                      <button class="popup__close" onclick='modalWindowClose()'>✖</button> 
-                  </div> 
-              </div> 
-          </div> 
+    const modalContainer = document.createElement("div");
+    modalContainer.className = "popup";
+    modalContainer.innerHTML = `  
+          <div class="popup__body">  
+              <div class="popup__content">  
+                  <img src="${data.image}"></img>  
+                   
+                  <table>  
+                      <tr><td>Status:</td> <td>${data.status}</td></tr>  
+                      <tr><td>Gender:</td> <td>${data.gender}</td></tr>  
+                      <tr><td>Species:</td> <td>${data.species}</td></tr>  
+                      <tr><td>Location:</td> <td>${data.location.name}</td></tr>  
+                  </table>  
+                  <button class="popup__close" onclick='modalWindowClose()'>✖</button>  
+              </div>  
+          </div>  
           `;
+    document.body.appendChild(modalContainer);
   });
 }
 
@@ -110,12 +94,13 @@ function modalWindowClose() {
 }
 
 function changePage(page) {
-  getData(`https://rickandmortyapi.com/api/character?page=${page}`).then(
-    (data) => {
-      gridNode.innerHTML = ``;
-      rendersCards(data.results);
-    }
-  );
+  const apiUrl = `https://rickandmortyapi.com/api/character?page=${page}&species=${selectedSpecies}&gender=${selectedGender}&status=${selectedStatus}`;
+
+  getData(apiUrl).then((data) => {
+    gridNode.innerHTML = ``;
+
+    rendersCards(data.results);
+  });
 }
 
 const backNode = document.querySelector(".arrow__left");
